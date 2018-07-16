@@ -1,0 +1,11 @@
+{
+  "name": "step-function-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "dependencies": {
+    "serverless": "~1.28.0",
+    "serverless-step-functions": "^1.5.0"
+  }
+}
