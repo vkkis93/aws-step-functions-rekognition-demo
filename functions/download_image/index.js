@@ -4,15 +4,11 @@ const uuid = require('uuid');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 
-const fs = require('fs');
-const util = require('util');
-const readFile = util.promisify(fs.readFile);
-
 module.exports.handler = async (event, context) => {
     console.log(event);
 	const uuidName = uuid.v1();
 	const options = {
-	  url: 'https://www.planwallpaper.com/static/images/2015-wallpaper_111525594_269.jpg',
+	  url: event.url,
 	  dest: '/tmp/${uuid}.jpg'
 	};
 	try {
@@ -24,6 +20,6 @@ module.exports.handler = async (event, context) => {
 		return {key: uuidName};
 	} catch(e) {
 		console.log('e', e);
-		return context.fail();
+		return Promise.reject(e);
 	}
 };

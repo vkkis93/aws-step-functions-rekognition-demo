@@ -1,16 +1,15 @@
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 module.exports.handler = async(event, context) => {
-    console.log(event);
     const params = {
         Bucket: process.env.bucketName,
-        Key: "HappyFace.jpg"
+        Key: event.key
     };
     try {
-        const result = s3.headObject(params).promise();
-        console.log(result);
+        const metadata = await s3.headObject(params).promise();
+        return Promise.resolve({metadata});
     } catch (e) {
         console.log(e);
+        return Promise.reject(e);
     }
-    return context.succeed();
 };

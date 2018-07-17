@@ -78,10 +78,10 @@ resources:  # CloudFormation template syntax
       Properties:
         TableName: imageTable
         AttributeDefinitions:
-          - AttributeName: Key
+          - AttributeName: Id
             AttributeType: S
         KeySchema:
-          - AttributeName: Key
+          - AttributeName: Id
             KeyType: HASH
         ProvisionedThroughput:
           ReadCapacityUnits: 1

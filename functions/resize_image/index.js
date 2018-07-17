@@ -4,15 +4,12 @@ const sharp = require('sharp');
 
 module.exports.handler = async(event, context) => {
 
-    console.log(event);
     try {
-        const image = await s3.getObject({Bucket: process.env.bucketName, Key: '/tmp/2015-wallpaper_111525594_269.jpg'}).promise();
-        console.log('image', image);
+        const image = await s3.getObject({Bucket: process.env.bucketName, Key: event.key}).promise();
         const resizedImage = await sharp(image.Body).resize(1280, 720).toBuffer();
-        console.log('resizedImage', resizedImage);
-        const s3Options = {Bucket: process.env.bucketName, Key: '/tmp/2015-wallpaper_111525594_269.jpg_resized', Body: resizedImage};
+        const s3Options = {Bucket: process.env.bucketName, Key: `${event.key}_resized`, Body: resizedImage};
         await s3.putObject(s3Options).promise();
-        return Promise.resolve();
+        return Promise.resolve({key: event.key});
     } catch (e) {
         console.log(e);
         return Promise.reject(e);
